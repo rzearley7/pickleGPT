@@ -29,11 +29,21 @@ def get_config():
 
     # model
     C.model = GPT.get_default_config()
-    C.model.model_type = 'gpt-mini'
+
+    C.model.model_type = 'gpt2'
+    C.model.vocab_size = 50257 # openai's model vocabulary
+    C.model.block_size = 1024  # openai's model block_size (i.e. input context length)
+    # C.model.n_layer = 8
+    # C.model.n_head = 8
+    # C.model.n_embd =  512 # *
+
+    # these options must be filled in externally
+    C.model.vocab_size = 84 # num unique characters
+    C.model.block_size = 128
 
     # trainer
     C.trainer = Trainer.get_default_config()
-    C.trainer.learning_rate = 5e-4 # the model we're using is so small that we can go a bit faster
+    C.trainer.learning_rate = 6e-3 # the model we're using is so small that we can go a bit faster
 
     return C
 
@@ -97,29 +107,33 @@ if __name__ == '__main__':
     train_dataset = CharDataset(config.data, text)
 
     # construct the model
-    config.model.vocab_size = train_dataset.get_vocab_size()
-    config.model.block_size = train_dataset.get_block_size()
+    # config.model.vocab_size = train_dataset.get_vocab_size()
+    # config.model.block_size = train_dataset.get_block_size()
     model = GPT(config.model)
 
+    # load existing model
+    # model.load_state_dict(torch.load("./out/chargpt/model.pt"))
+    
     # construct the trainer object
     trainer = Trainer(config.trainer, model, train_dataset)
 
     # iteration callback
     def batch_end_callback(trainer):
 
-        if trainer.iter_num % 10 == 0:
+        if trainer.iter_num % 1 == 0:
             print(f"iter_dt {trainer.iter_dt * 1000:.2f}ms; iter {trainer.iter_num}: train loss {trainer.loss.item():.5f}")
-
-        if trainer.iter_num % 500 == 0:
+        if trainer.iter_num % 1 == 0:
             # evaluate both the train and test score
             model.eval()
             with torch.no_grad():
                 # sample from the model...
-                context = "O God, O God!"
+                context = "Harry"
                 x = torch.tensor([train_dataset.stoi[s] for s in context], dtype=torch.long)[None,...].to(trainer.device)
-                y = model.generate(x, 500, temperature=1.0, do_sample=True, top_k=10)[0]
+                y = model.generate(x, 200, temperature=1.0, do_sample=True, top_k=10)[0]
+                # changed 500 to 20   ^
                 completion = ''.join([train_dataset.itos[int(i)] for i in y])
                 print(completion)
+        if trainer.iter_num % 10 == 0:        
             # save the latest model
             print("saving model")
             ckpt_path = os.path.join(config.system.work_dir, "model.pt")

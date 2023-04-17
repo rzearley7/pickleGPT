@@ -104,7 +104,7 @@ class GPT(nn.Module):
         C.n_head = None
         C.n_embd =  None
         # these options must be filled in externally
-        C.vocab_size = None
+        C.vocab_size = None # num unique characters
         C.block_size = None
         # dropout hyperparameters
         C.embd_pdrop = 0.1

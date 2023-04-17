@@ -20,9 +20,9 @@ class Trainer:
         # dataloder parameters
         C.num_workers = 4
         # optimizer parameters
-        C.max_iters = None
-        C.batch_size = 64
-        C.learning_rate = 3e-4
+        C.max_iters = 1000
+        C.batch_size = 64 # *
+        C.learning_rate = 3e-4 # *
         C.betas = (0.9, 0.95)
         C.weight_decay = 0.1 # only applied on matmul weights
         C.grad_norm_clip = 1.0

@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  margin: 1.5rem;
+  justify-content: left;
+  align-items: left;
+  display: flex;
+  color: #07f07c;
+}
+.wrapper {
+  color: #fff;
+  text-align: right;
+  height: auto;
+  display: inline-block;
+  width: 50%;
+}
+.left {
+  margin-right: 100px;
+  color: #07f07c;
+}
+.right {
+  margin-right: 100px;
+  color: #07f07c;
+}
+a {
+  color: #ffffff;
+}
+body {
+  background: #23242a;
+  background-size: cover;
+  flex-wrap: wrap;
+}
+.container {
+  margin-left: 0.5rem;
+  display: inline-block;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
+  width: fit-content;
+}
+
+.typed-out {
+  overflow: hidden;
+  border-right: 0.5em solid #00ff73;
+  white-space: nowrap;
+  animation: typing 2s steps(20, end) forwards;
+  font-size: 1.2rem;
+  width: 0;
+  color: #fff;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.bottom-text {
+  color: #fff;
+  margin: 0.5rem;
+}
+.input_user {
+  width: 30rem;
+  float: right;
+  margin-bottom: 2rem;
+  margin-left: 0.7rem;
+}
+.output_ML {
+  float: right;
+  border: 15px;
+  padding: 2em;
+  margin-bottom: 2rem;
+  margin-right: 100px;
+}
+#input-wrapper {
+  display: inline-block;
+  width: 50%;
+}
+
+.inner_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
